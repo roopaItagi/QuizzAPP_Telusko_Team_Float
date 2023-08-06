@@ -1,11 +1,9 @@
 import java.util.Scanner;
-
 public class QuestionService {
 
     Question[] questions = new Question[5];
     String selection[] = new String[5];
 
-    int topicNo;
 
     public QuestionService()
     {
@@ -16,11 +14,12 @@ public class QuestionService {
         questions[4] = new Question(5, "size of boolean", "1", "2", "4", "8", "1");
 
     }
+    /* Parameterised Constructor for creating object of type QuestionService class*/
     public QuestionService(int topic){
 
         if(topic==1){
             questions[0] = new Question(1, "What is the meaning of Telusko: ", "Get to know ", "Learn", "Knowledge", "Both 1 and 2", "4");
-            questions[1] = new Question(2, "When was Telusko founded", "2", "6", "4", "8", "1");
+            questions[1] = new Question(2, "When was Telusko founded", "2010", "2014", "2020", "2019", "2");
             questions[2] = new Question(3, "How many children Navin Reddy has", "Two", "one", "Three", "None", "1");
             questions[3] = new Question(4, "What is Navin Reddy's fav word", "Aliens", "friends", "Apple", "youtube", "1");
             questions[4] = new Question(5, "What is Navin Reddy's Wife's name", "Kajol", "Kiran", "Reema", "Deepika", "2");
@@ -34,19 +33,15 @@ public class QuestionService {
         }
 
     }
-
-    public void displayQuestions()
-    {
-        for(Question question : questions) {
-            System.out.println(question.toString());
-        }
-
-    }
+    /* Displays question for the player and reads the input and calculates the score */
 
     public void playQuiz(Player player)
     {
         int i=0;
         int score=0;
+        //30 seconds timer for each question.
+        long endTime=System.currentTimeMillis()+30000;
+
         String answer;
         for(Question q : questions){
 
@@ -58,16 +53,15 @@ public class QuestionService {
             System.out.println("4. "+q.getOpt4());
             System.out.println(" ");
             System.out.println("Do you want to skip this question?Please enter Y/N:  ");
-            Scanner sc = new Scanner(System.in);
-            String skipScan= sc.next().trim();
+            Scanner input = new Scanner(System.in);
+                String skipScan= input.next();
             if(skipScan.equalsIgnoreCase("Y")){
                 i++;
                 continue;
             }
             System.out.println("Enter the right option:");
-           Scanner AnsScanner = new Scanner(System.in);
+            selection[i] = input.next();
 
-            selection[i] = AnsScanner.nextLine().trim();
             answer=q.getAnswer();
             if(answer.equals( selection[i])){
                 System.out.println("Correct Answer");
@@ -80,6 +74,9 @@ public class QuestionService {
 
             System.out.println("Your current score is : " + score+"/"+selection.length);
             i++;
+            if(timeOut(endTime)==1){
+                return;
+            }
 
         }
         if(score==selection.length){
@@ -92,29 +89,14 @@ public class QuestionService {
             System.out.println(player.getName() + " Your Final score is : " + score+"/"+selection.length);
         }
     }
-
-    /*public void printScore(){
-        int score=0;
-        for(String s : selection){
-            System.out.println(s);
+    /*Checks for 30s time out for each question */
+    public int timeOut(long endTime){
+        int result=0;
+        if(System.currentTimeMillis()>endTime){
+            System.out.println("Timeout");
+            result=1;
         }
-        for(int i=0;i<5;i++){
-            Question q = questions[i];
-            String answer = q.getAnswer();
-            String selAnswer = selection[i];
-
-            if(answer.equals(selAnswer)){
-
-                score++;
-            }
-            else{
-
-                score--;
-            }
-
-            System.out.println("Your current score is : " + score);
-        }
-        System.out.println("Your Final score is : " + score);
-    }*/
+        return result;
+    }
 
 }
