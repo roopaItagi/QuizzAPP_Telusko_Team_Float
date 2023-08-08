@@ -47,17 +47,16 @@ public class Main {
 
             System.out.println("##########################################################################");
             System.out.println("Please read the Quiz rules:  ");
-            System.out.println("**There are total 5 questions and Time limit for each question is 30 seconds.");
+            System.out.println("**There are total 5 questions and Time limit for each question is 15 seconds.");
             System.out.println("**You have the option to skip the question if you do not want to answer.");
             System.out.println("**1 point will be deducted from your score for each wrong answer.");
             System.out.println("##########################################################################");
             System.out.println(player.getName() + " Please select the topic for your quiz from the below options:");
-            System.out.println("1.Navin Reddy");
-            System.out.println("2.Core java programming");
-
-            System.out.println("Your Time starts now "+ dateFormat.format(cal.getTime()) );
-
+            System.out.println("1.Core java programming");
+            System.out.println("2.General Knowledge");
             int topic = input.nextInt();
+            System.out.println("Your Time starts now "+ dateFormat.format(cal.getTime().getTime() ) );
+
             do {
 
                 if (topic == 1) {
