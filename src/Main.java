@@ -58,17 +58,15 @@ public class Main {
             System.out.println("Your Time starts now "+ dateFormat.format(cal.getTime().getTime() ) );
 
             do {
-
-                if (topic == 1) {
-                    QuestionService service = new QuestionService(1);
-                    service.playQuiz(player);
-
-                } else {
-                    if (topic == 2) {
-                        QuestionService service = new QuestionService(2);
-                        service.playQuiz(player);
-                    }
-                }
+            	Timer time = new Timer();
+            	Thread t = new Thread(time);
+            	
+            	 if (topic == 1 || topic == 2) {
+            		 t.start();
+                     QuestionService service = new QuestionService(topic);
+                     service.playQuiz(player);
+                     
+                 }
                 System.out.println("Do you want to play again?Y/N : ");
 
                 String ready = input.next();
