@@ -4,6 +4,7 @@ public class QuestionService {
     Question[] questions = new Question[5];
     String []selection = new String[5];
     private int score=0;
+    long endTime = System.currentTimeMillis() + 30000;
 
 
     public int getScore() {
@@ -97,7 +98,24 @@ public class QuestionService {
             System.out.println();
             System.out.println(player.getName() + " Your Final score is : " + score+"/"+selection.length);
         }
+
     }
+    public void timeOut() {
+
+		try {
+			if (System.currentTimeMillis() > endTime) {
+				System.out.println("Timeout, Your Final score is : " + score+"/"+selection.length);
+				System.out.println("See you again");
+				System.exit(0);
+
+			}
+		}
+		catch(Exception e) {
+			System.out.println("some issues with timout");
+		}
+	
+		
+	}
 
 
 }

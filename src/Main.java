@@ -56,13 +56,14 @@ public class Main {
             System.out.println("2.General Knowledge");
             int topic = input.nextInt();
             System.out.println("Your Time starts now "+ dateFormat.format(cal.getTime().getTime() ) );
-
+        	Timer time = new Timer();
+        	Thread daemont = new Thread(time);
+        	
             do {
-            	Timer time = new Timer();
-            	Thread t = new Thread(time);
             	
             	 if (topic == 1 || topic == 2) {
-            		 t.start();
+            		 daemont.setDaemon(true);
+            		 daemont.start();
                      QuestionService service = new QuestionService(topic);
                      service.playQuiz(player);
                      
