@@ -3,9 +3,14 @@ public class QuestionService {
 
     Question[] questions = new Question[5];
     String []selection = new String[5];
+    private int score=0;
+    long endTime = System.currentTimeMillis() + 30000;
 
 
-    public QuestionService()
+    public int getScore() {
+		return score;
+	}
+	public QuestionService()
     {
         questions[0] = new Question(1, "size of int", "2", "6", "4", "8", "4");
         questions[1] = new Question(2, "size of double", "2", "6", "4", "8", "8");
@@ -38,73 +43,52 @@ public class QuestionService {
 
     public void playQuiz(Player player)
     {
-        int i=0;
-        int score=0;
-        //30 seconds timer for each question.
-        long endTime=0;
-
+   
+        
         String answer;
-        for(Question q : questions){
-            endTime=System.currentTimeMillis()+15000;
-            System.out.println("Question " + (i+1) + " : ");
-            System.out.println(q.getId()+"."+q.getQuestion());
-            System.out.println("1. "+q.getOpt1());
-            System.out.println("2. "+q.getOpt2());
-            System.out.println("3. "+q.getOpt3());
-            System.out.println("4. "+q.getOpt4());
-            //System.out.println(" ");
-            if(System.currentTimeMillis()>endTime){
-                System.out.println("Timeout");
-                i++;
-                continue;
-            }
-            System.out.println("Do you want to skip this question?Please enter Y/N:  ");
-            Scanner input = new Scanner(System.in);
-            String skipScan= input.next();
+		for (int i=0;i<questions.length;i++) {
 
-            if(System.currentTimeMillis()>endTime){
-                System.out.println("Timeout");
-                System.out.println("------------------------------------------------------");
-                i++;
-                continue;
-            }
+			System.out.println("Question " + (i + 1) + " : ");
+			Question q = questions[i];
+			System.out.println(q.getId() + "." + q.getQuestion());
+			System.out.println("1. " + q.getOpt1());
+			System.out.println("2. " + q.getOpt2());
+			System.out.println("3. " + q.getOpt3());
+			System.out.println("4. " + q.getOpt4());
 
-            if(skipScan.equalsIgnoreCase("Y")){
-                i++;
-                System.out.println("------------------------------------------------------");
-                continue;
-            }
-            System.out.println("Enter the right option:");
-            selection[i] = input.next();
-            if(System.currentTimeMillis()>endTime){
-                System.out.println("Timeout");
-                System.out.println("------------------------------------------------------");
-                i++;
-                continue;
-            }
+			System.out.println("Do you want to skip this question?Please enter Y/N:  ");
+			System.out.println(" ");
+			Scanner input = new Scanner(System.in);
+			String skipScan = input.next();
 
+			if (skipScan.equalsIgnoreCase("Y")) {
+	
+				System.out.println("------------------------------------------------------");
+				continue;
+			} else if (skipScan.equalsIgnoreCase("N")) {
+				System.out.println("Enter the right option:");
+				selection[i] = input.next();
 
-            answer=q.getAnswer();
-            if(answer.equals( selection[i])){
-                System.out.println("Correct Answer");
-                score++;
-            }
-            else{
-                System.out.println("Wrong answer!!!!");
-                System.out.println("The correct option is : "+answer);
+				answer = q.getAnswer();
+				if (answer.equals(selection[i])) {
+					System.out.println("Correct Answer");
+					score++;
+				} else {
+					System.out.println("Wrong answer!!!!");
+					System.out.println("The correct option is : " + answer);
 
-                score--;
-            }
+					score--;
+				}
 
-            System.out.println("Your current score is : " + score+"/"+selection.length);
-            System.out.println("------------------------------------------------------");
-            i++;
-           /* if(System.currentTimeMillis()>endTime){
-                System.out.println("Timeout");
-                continue;
-            }*/
+				System.out.println("Your current score is : " + score + "/" + selection.length);
+				System.out.println("------------------------------------------------------");
 
-        }
+			} else {
+				System.out.println("Invalid option:");
+				i--;
+			}
+
+		}
         if(score==selection.length){
             System.out.println();
             System.out.println("Congratulations!!!!! "+player.getName());
@@ -114,15 +98,24 @@ public class QuestionService {
             System.out.println();
             System.out.println(player.getName() + " Your Final score is : " + score+"/"+selection.length);
         }
+
     }
-    /*Checks for 15 seconds time out for each question */
-   /* public int timeOut(long endTime){
-        int result=0;
-        if(System.currentTimeMillis()>endTime){
-            System.out.println("Timeout");
-            result=1;
-        }
-        return result;
-    }*/
+    public void timeOut() {
+
+		try {
+			if (System.currentTimeMillis() > endTime) {
+				System.out.println("Timeout, Your Final score is : " + score+"/"+selection.length);
+				System.out.println("See you again");
+				System.exit(0);
+
+			}
+		}
+		catch(Exception e) {
+			System.out.println("some issues with timout");
+		}
+	
+		
+	}
+
 
 }

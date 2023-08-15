@@ -56,19 +56,18 @@ public class Main {
             System.out.println("2.General Knowledge");
             int topic = input.nextInt();
             System.out.println("Your Time starts now "+ dateFormat.format(cal.getTime().getTime() ) );
-
+        	Timer time = new Timer();
+        	Thread daemont = new Thread(time);
+        	
             do {
-
-                if (topic == 1) {
-                    QuestionService service = new QuestionService(1);
-                    service.playQuiz(player);
-
-                } else {
-                    if (topic == 2) {
-                        QuestionService service = new QuestionService(2);
-                        service.playQuiz(player);
-                    }
-                }
+            	
+            	 if (topic == 1 || topic == 2) {
+            		 daemont.setDaemon(true);
+            		 daemont.start();
+                     QuestionService service = new QuestionService(topic);
+                     service.playQuiz(player);
+                     
+                 }
                 System.out.println("Do you want to play again?Y/N : ");
 
                 String ready = input.next();
