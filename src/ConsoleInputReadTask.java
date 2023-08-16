@@ -23,5 +23,6 @@ public class ConsoleInputReadTask implements Callable<String> {
         // System.out.println("Thank You for providing input!");
         return input;
     }
+
 }
 

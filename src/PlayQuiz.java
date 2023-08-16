@@ -170,7 +170,6 @@ public class PlayQuiz  extends QuestionService {
 
         return input1;
     }
-
     public boolean checkforInteger(String skipScan){
         boolean result=false;
         if(skipScan.equalsIgnoreCase("1")||
